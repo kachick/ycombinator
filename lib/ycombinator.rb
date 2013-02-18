@@ -1,7 +1,7 @@
-$VERBOSE = true
+# Copyright (c) 2012 Kenichi Kamiya
 
-# http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-list/35058
-
+# @note
+#  Inspired from http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-list/35058
 module YCombinator
 
   VERSION = '0.0.1'.freeze
@@ -53,30 +53,3 @@ module YCombinator
   end
 
 end
-
-class Proc
-  
-  def y(arg)
-    to_ycomb[arg]
-  end
-  
-  def to_ycomb
-    YCombinator[self]
-  end
-  
-  def to_ycomb?
-    YCombinator.accept? self
-  end
-  
-end
-
-include YCombinator
-
-Y = YCombinator
-
-fact = proc{|f| proc{|n| n == 0 ? 1 : n * f[n-1]}}
-fib = proc{|f| proc{|n| n <= 1 ? n : f[n-1] + f[n-2]}}
-
-p ->f{proc{|n| n == 0 ? 1 : n * f[n-1]}}.y(5)
-p Y[fact][5] #=> 120
-p Y[fib][10] #=> 55
